@@ -35,7 +35,8 @@ sed -i -- 's/DB_PASSWORD=secret/DB_PASSWORD=password/g' /var/www/seat/.env
 sed -i -- 's/APP_DEBUG=false/APP_DEBUG=true/g' /var/www/seat/.env
 php artisan vendor:publish --force
 php artisan migrate
-php artisan serve --port=8000 --host=172.28.128.3
+php artisan key:generate
+
 #php artisan db:seed --class=Seat\\Notifications\\database\\seeds\\ScheduleSeeder
 #php artisan db:seed --class=Seat\\Services\\database\\seeds\\NotificationTypesSeeder
 #php artisan db:seed --class=Seat\\Services\\database\\seeds\\ScheduleSeeder
@@ -46,16 +47,17 @@ php artisan serve --port=8000 --host=172.28.128.3
 #systemctl start supervisor
 #systemctl enable supervisor
 #supervisorctl reload
-#crontab -u www-data /vagrant/provisions/crontab
-#adduser ubuntu www-data
-#chown -R www-data:www-data /var/www
-#chmod -R guo+w /var/www/seat/storage/
-#cp /vagrant/provisions/vhost /etc/apache2/sites-available/seat.conf
-#chmod 777 -R /var/www/seat
-#a2dissite 000-default.conf
-#a2ensite seat
-#a2enmod rewrite
-#apachectl restart
+crontab -u www-data /vagrant/provisions/crontab
+adduser ubuntu www-data
+chown -R www-data:www-data /var/www
+chmod -R guo+w /var/www/seat/storage/
+cp /vagrant/provisions/vhost /etc/apache2/sites-available/seat.conf
+chmod 777 -R /var/www/seat
+a2dissite 000-default.conf
+a2ensite seat
+a2enmod rewrite
+apachectl restart
+
 
 echo " "
 echo " "
@@ -74,3 +76,5 @@ echo "******************************"
 echo " "
 echo " "
 echo " "
+
+#php artisan serve --port=8000 --host=172.28.128.3
